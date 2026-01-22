@@ -1,8 +1,8 @@
-
+import ListView from "../Views/ListView"
 const ListContainer = () => {
 
     return <>
-         Hi ListContainer
+        <ListView />
     </>
 }
 

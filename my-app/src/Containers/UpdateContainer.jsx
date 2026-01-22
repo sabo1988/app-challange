@@ -1,8 +1,9 @@
+import UpdateView from "../Views/UpdateView"
 
 const UpdateContainer = () => {
 
     return <>
-         Hi UpdateContainer
+         <UpdateView />
     </>
 }
 

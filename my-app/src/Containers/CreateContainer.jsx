@@ -1,8 +1,9 @@
+import CreateView from '../Views/CreateView'
 
 const CreateContainer = () => {
 
     return <>
-         Hi CreateContainer
+         <CreateView />
     </>
 }
 

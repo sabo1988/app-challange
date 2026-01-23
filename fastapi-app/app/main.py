@@ -103,7 +103,9 @@ def create_item(payload: ItemCreate,  Authorization: str = Header(None)):
 def update_item(item_id: str, payload: ItemUpdate):
     item = find_item(item_id)
 
-    # (simple) prevent editing deleted items
+    if not item:
+        raise HTTPException(status_code=404, detail="Not Found")
+
     if item.isDeleted:
         raise HTTPException(status_code=400, detail="Item is deleted")
 
@@ -114,7 +116,7 @@ def update_item(item_id: str, payload: ItemUpdate):
     item.updatedAt = now_iso()
     return item
 
-@app.delete("/api/items/{item_id}", response_model=Item)
+@app.delete("/api/items/{item_id}", response_model=Item, status_code=204)
 def delete_item(item_id: str, Authorization: str = Header(None)):
     if not Authorization:
         raise HTTPException(status_code=401, detail="Missing token")
@@ -124,6 +126,9 @@ def delete_item(item_id: str, Authorization: str = Header(None)):
        
     item = find_item(item_id)
 
+    if not item:
+        raise HTTPException(status_code=404, detail="Not Found")
+    
     # soft delete
     item.isDeleted = True
     item.updatedAt = now_iso()

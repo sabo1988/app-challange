@@ -49,17 +49,18 @@ def find_item(item_id: str) -> Item:
 
 
 # --- Routes (CRUD) ---
+
 @app.get("/")
 def home():
     return {"Welcome to menu API"}
 
-@app.get("/items", response_model=List[Item])
+@app.get("/api/items", response_model=List[Item])
 def list_items(include_deleted: bool = False):
     if include_deleted:
         return items
     return [i for i in items if not i.isDeleted]
 
-@app.post("/items", response_model=Item, status_code=201)
+@app.post("/api/items", response_model=Item, status_code=201)
 def create_item(payload: ItemCreate):
     t = now_iso()
     item = Item(
@@ -75,7 +76,7 @@ def create_item(payload: ItemCreate):
     items.append(item)
     return item
 
-@app.put("/items/{item_id}", response_model=Item)
+@app.put("/api/items/{item_id}", response_model=Item)
 def update_item(item_id: str, payload: ItemUpdate):
     item = find_item(item_id)
 
@@ -90,7 +91,7 @@ def update_item(item_id: str, payload: ItemUpdate):
     item.updatedAt = now_iso()
     return item
 
-@app.delete("/items/{item_id}", response_model=Item)
+@app.delete("/api/items/{item_id}", response_model=Item)
 def delete_item(item_id: str):
     item = find_item(item_id)
 
